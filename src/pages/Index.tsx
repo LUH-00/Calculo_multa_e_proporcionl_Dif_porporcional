@@ -13,14 +13,6 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
-            <div className="inline-block cyber-glass rounded-2xl px-8 py-4 border border-glass-border mb-6">
-              <h1 className="text-3xl md:text-4xl font-bold">
-                <span className="bg-gradient-cyber bg-clip-text text-transparent">CALCULADORA</span>{" "}
-                <span className="text-secondary">AVANÇADA</span>
-              </h1>
-              <p className="text-muted-foreground mt-2">Sistema moderno de cálculos de planos</p>
-            </div>
-            
             <div className="w-24 h-1 bg-gradient-cyber mx-auto rounded-full glow-primary"></div>
           </div>
 

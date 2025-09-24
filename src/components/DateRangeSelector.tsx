@@ -1,6 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Calendar, Clock } from 'lucide-react';
-import { Input } from '@/components/ui/input';
+import { Calendar as CalendarIcon, Clock } from 'lucide-react';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
 import { calculateDateDifference } from '@/utils/calculations';
 
 interface DateRangeSelectorProps {
@@ -19,6 +24,12 @@ export function DateRangeSelector({
   onDaysChange
 }: DateRangeSelectorProps) {
   const [calculatedDays, setCalculatedDays] = useState(0);
+  const [startDateObj, setStartDateObj] = useState<Date | undefined>(
+    startDate ? new Date(startDate) : undefined
+  );
+  const [endDateObj, setEndDateObj] = useState<Date | undefined>(
+    endDate ? new Date(endDate) : undefined
+  );
 
   useEffect(() => {
     if (startDate && endDate) {
@@ -31,33 +42,93 @@ export function DateRangeSelector({
     }
   }, [startDate, endDate, onDaysChange]);
 
+  const handleStartDateSelect = (date: Date | undefined) => {
+    setStartDateObj(date);
+    if (date) {
+      const dateString = format(date, 'yyyy-MM-dd');
+      onStartDateChange(dateString);
+    } else {
+      onStartDateChange('');
+    }
+  };
+
+  const handleEndDateSelect = (date: Date | undefined) => {
+    setEndDateObj(date);
+    if (date) {
+      const dateString = format(date, 'yyyy-MM-dd');
+      onEndDateChange(dateString);
+    } else {
+      onEndDateChange('');
+    }
+  };
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-            <Calendar className="w-4 h-4 text-primary" />
+            <CalendarIcon className="w-4 h-4 text-primary" />
             Data Inicial
           </label>
-          <Input
-            type="date"
-            value={startDate}
-            onChange={(e) => onStartDateChange(e.target.value)}
-            className="cyber-glass border-glass-border bg-input text-foreground"
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal cyber-glass border-glass-border bg-input text-foreground",
+                  !startDateObj && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {startDateObj ? format(startDateObj, "dd/MM/yyyy", { locale: ptBR }) : "Selecione a data"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent 
+              className="w-auto p-0 cyber-glass border-glass-border bg-card" 
+              align="start"
+            >
+              <Calendar
+                mode="single"
+                selected={startDateObj}
+                onSelect={handleStartDateSelect}
+                initialFocus
+                className="p-3 pointer-events-auto"
+              />
+            </PopoverContent>
+          </Popover>
         </div>
 
         <div className="space-y-2">
           <label className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-            <Calendar className="w-4 h-4 text-primary" />
+            <CalendarIcon className="w-4 h-4 text-primary" />
             Data Final
           </label>
-          <Input
-            type="date"
-            value={endDate}
-            onChange={(e) => onEndDateChange(e.target.value)}
-            className="cyber-glass border-glass-border bg-input text-foreground"
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className={cn(
+                  "w-full justify-start text-left font-normal cyber-glass border-glass-border bg-input text-foreground",
+                  !endDateObj && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {endDateObj ? format(endDateObj, "dd/MM/yyyy", { locale: ptBR }) : "Selecione a data"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent 
+              className="w-auto p-0 cyber-glass border-glass-border bg-card" 
+              align="start"
+            >
+              <Calendar
+                mode="single"
+                selected={endDateObj}
+                onSelect={handleEndDateSelect}
+                initialFocus
+                className="p-3 pointer-events-auto"
+              />
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 
