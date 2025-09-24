@@ -1,3 +1,6 @@
+# Calculadora Avançada - Sistema de Cálculos de Planos
+# Desenvolvido por Luan Vinicius
+
 User-agent: Googlebot
 Allow: /
 
@@ -12,3 +15,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: /sitemap.xml

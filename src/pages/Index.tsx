@@ -2,8 +2,35 @@ import { ContractFineCalculator } from "@/components/ContractFineCalculator";
 import { ProportionalCalculator } from "@/components/ProportionalCalculator";
 import { ProportionalDifferenceCalculator } from "@/components/ProportionalDifferenceCalculator";
 import { InfoModal } from "@/components/InfoModal";
+import { useEffect } from "react";
 
 const Index = () => {
+  useEffect(() => {
+    // Adiciona structured data para SEO
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Calculadora Avançada - Sistema de Cálculos de Planos",
+      "description": "Sistema moderno e tecnológico para cálculos de multas contratuais, valores proporcionais e diferenças proporcionais de planos de internet.",
+      "url": "https://calculadora-avancada.netlify.app/",
+      "author": {
+        "@type": "Person",
+        "name": "Luan Vinicius"
+      },
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser"
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.text = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, []);
+
   return (
     <>
       {/* Animated Background */}
