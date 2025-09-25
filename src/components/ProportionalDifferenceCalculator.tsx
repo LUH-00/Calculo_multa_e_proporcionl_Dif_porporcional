@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { GitCompare, Calculator } from 'lucide-react';
+import { GitCompare, Calculator, AlertCircle } from 'lucide-react';
 import { CalculatorCard } from './CalculatorCard';
 import { PlanSelect } from './PlanSelect';
 import { DateRangeSelector } from './DateRangeSelector';
 import { ResultDisplay } from './ResultDisplay';
 import { Button } from '@/components/ui/button';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { ALL_PLANS } from '@/types/plans';
 import { calculateProportionalDifferenceByDate, formatCurrency } from '@/utils/calculations';
 import { CalculationResult, DateRange } from '@/types/plans';
@@ -27,12 +28,29 @@ export function ProportionalDifferenceCalculator() {
     period2: CalculationResult;
     total: number;
   } | null>(null);
+  
+  const [error, setError] = useState('');
 
   const handleCalculate = () => {
+    setError('');
+    
     const plan1 = ALL_PLANS.find(p => p.id === selectedPlanId1);
     const plan2 = ALL_PLANS.find(p => p.id === selectedPlanId2);
     
-    if (!plan1 || !plan2 || !startDate1 || !endDate1 || !startDate2 || !endDate2 || days1 <= 0 || days2 <= 0) {
+    if (!plan1 || !plan2) {
+      setError('Por favor, selecione os planos para ambos os períodos.');
+      setResults(null);
+      return;
+    }
+    
+    if (!startDate1 || !endDate1 || !startDate2 || !endDate2) {
+      setError('Por favor, selecione as datas para ambos os períodos.');
+      setResults(null);
+      return;
+    }
+    
+    if (days1 <= 0 || days2 <= 0) {
+      setError('Ambos os períodos devem ter pelo menos 1 dia.');
       setResults(null);
       return;
     }
@@ -40,8 +58,13 @@ export function ProportionalDifferenceCalculator() {
     const dateRange1: DateRange = { startDate: startDate1, endDate: endDate1, days: days1 };
     const dateRange2: DateRange = { startDate: startDate2, endDate: endDate2, days: days2 };
 
-    const calculationResults = calculateProportionalDifferenceByDate(plan1, dateRange1, plan2, dateRange2);
-    setResults(calculationResults);
+    try {
+      const calculationResults = calculateProportionalDifferenceByDate(plan1, dateRange1, plan2, dateRange2);
+      setResults(calculationResults);
+    } catch (err) {
+      setError('Erro ao calcular a diferença proporcional. Verifique os dados.');
+      setResults(null);
+    }
   };
 
   const canCalculate = selectedPlanId1 && selectedPlanId2 && startDate1 && endDate1 && startDate2 && endDate2 && days1 > 0 && days2 > 0;
@@ -62,16 +85,28 @@ export function ProportionalDifferenceCalculator() {
             <div className="space-y-4">
               <PlanSelect
                 value={selectedPlanId1}
-                onValueChange={setSelectedPlanId1}
+                onValueChange={(value) => {
+                  setSelectedPlanId1(value);
+                  setError('');
+                }}
                 placeholder="Selecione o plano"
               />
               
               <DateRangeSelector
                 startDate={startDate1}
                 endDate={endDate1}
-                onStartDateChange={setStartDate1}
-                onEndDateChange={setEndDate1}
-                onDaysChange={setDays1}
+                onStartDateChange={(date) => {
+                  setStartDate1(date);
+                  setError('');
+                }}
+                onEndDateChange={(date) => {
+                  setEndDate1(date);
+                  setError('');
+                }}
+                onDaysChange={(days) => {
+                  setDays1(days);
+                  setError('');
+                }}
               />
             </div>
           </div>
@@ -88,21 +123,39 @@ export function ProportionalDifferenceCalculator() {
             <div className="space-y-4">
               <PlanSelect
                 value={selectedPlanId2}
-                onValueChange={setSelectedPlanId2}
+                onValueChange={(value) => {
+                  setSelectedPlanId2(value);
+                  setError('');
+                }}
                 placeholder="Selecione o plano"
               />
               
               <DateRangeSelector
                 startDate={startDate2}
                 endDate={endDate2}
-                onStartDateChange={setStartDate2}
-                onEndDateChange={setEndDate2}
-                onDaysChange={setDays2}
+                onStartDateChange={(date) => {
+                  setStartDate2(date);
+                  setError('');
+                }}
+                onEndDateChange={(date) => {
+                  setEndDate2(date);
+                  setError('');
+                }}
+                onDaysChange={(days) => {
+                  setDays2(days);
+                  setError('');
+                }}
               />
             </div>
           </div>
         </div>
 
+        {error && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
         <Button
           onClick={handleCalculate}
           disabled={!canCalculate}

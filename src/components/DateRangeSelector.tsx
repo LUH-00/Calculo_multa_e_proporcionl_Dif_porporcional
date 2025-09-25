@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Calendar as CalendarIcon, Clock } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { cn } from '@/lib/utils';
 import { calculateDateDifference } from '@/utils/calculations';
 
@@ -24,6 +25,7 @@ export function DateRangeSelector({
   onDaysChange
 }: DateRangeSelectorProps) {
   const [calculatedDays, setCalculatedDays] = useState(0);
+  const [dateError, setDateError] = useState('');
   const [startDateObj, setStartDateObj] = useState<Date | undefined>(
     startDate ? new Date(startDate) : undefined
   );
@@ -32,7 +34,19 @@ export function DateRangeSelector({
   );
 
   useEffect(() => {
+    setDateError('');
+    
     if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      
+      if (end < start) {
+        setDateError('A data final deve ser posterior à data inicial.');
+        setCalculatedDays(0);
+        onDaysChange(0);
+        return;
+      }
+      
       const days = calculateDateDifference(startDate, endDate);
       setCalculatedDays(days);
       onDaysChange(days);
@@ -43,6 +57,7 @@ export function DateRangeSelector({
   }, [startDate, endDate, onDaysChange]);
 
   const handleStartDateSelect = (date: Date | undefined) => {
+    setDateError('');
     setStartDateObj(date);
     if (date) {
       const dateString = format(date, 'yyyy-MM-dd');
@@ -53,6 +68,7 @@ export function DateRangeSelector({
   };
 
   const handleEndDateSelect = (date: Date | undefined) => {
+    setDateError('');
     setEndDateObj(date);
     if (date) {
       const dateString = format(date, 'yyyy-MM-dd');
@@ -92,6 +108,7 @@ export function DateRangeSelector({
                 selected={startDateObj}
                 onSelect={handleStartDateSelect}
                 initialFocus
+                disabled={(date) => date > new Date() || date < new Date('2020-01-01')}
                 className="p-3 pointer-events-auto"
               />
             </PopoverContent>
@@ -125,6 +142,7 @@ export function DateRangeSelector({
                 selected={endDateObj}
                 onSelect={handleEndDateSelect}
                 initialFocus
+                disabled={(date) => date > new Date() || date < new Date('2020-01-01')}
                 className="p-3 pointer-events-auto"
               />
             </PopoverContent>
@@ -132,6 +150,12 @@ export function DateRangeSelector({
         </div>
       </div>
 
+      {dateError && (
+        <Alert variant="destructive">
+          <AlertTriangle className="h-4 w-4" />
+          <AlertDescription>{dateError}</AlertDescription>
+        </Alert>
+      )}
       {calculatedDays > 0 && (
         <div className="flex items-center justify-center gap-2 p-3 rounded-lg bg-gradient-primary text-primary-foreground">
           <Clock className="w-4 h-4" />

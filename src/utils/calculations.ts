@@ -9,9 +9,13 @@ export function calculateDateDifference(startDate: string, endDate: string): num
   const start = new Date(startDate);
   const end = new Date(endDate);
   
+  // Validação de datas
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) return 0;
+  if (end < start) return 0;
+  
   // Calcula a diferença em milissegundos e converte para dias
   const diffTime = Math.abs(end.getTime() - start.getTime());
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 para incluir o dia inicial
   
   return diffDays;
 }

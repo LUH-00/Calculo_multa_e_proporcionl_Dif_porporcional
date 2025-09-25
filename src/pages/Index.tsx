@@ -40,6 +40,12 @@ const Index = () => {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-cyber bg-clip-text text-transparent mb-4">
+              Calculadora Avançada
+            </h1>
+            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+              Sistema moderno e tecnológico para cálculos de multas contratuais, valores proporcionais e diferenças proporcionais de planos de internet.
+            </p>
             <div className="w-24 h-1 bg-gradient-cyber mx-auto rounded-full glow-primary"></div>
           </div>
 

@@ -51,6 +51,12 @@ export function InfoModal() {
                 <p>• Benefício total (12 meses): R$ 600,00</p>
                 <p>• Para 5 meses restantes: (600 ÷ 12) × 5 = R$ 250,00</p>
               </div>
+              
+              <div className="mt-3 p-2 bg-primary/10 rounded border-l-2 border-primary">
+                <p className="text-xs text-primary font-medium">
+                  💡 Dica: A multa é proporcional aos meses restantes do contrato de fidelidade.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -68,9 +74,31 @@ export function InfoModal() {
                 <p>• Valor diário: R$ 109,90 ÷ 31 = R$ 3,55</p>
                 <p>• Para 15 dias de uso: R$ 3,55 × 15 = R$ 53,23</p>
               </div>
+              
+              <div className="mt-3 p-2 bg-secondary/10 rounded border-l-2 border-secondary">
+                <p className="text-xs text-secondary font-medium">
+                  💡 Dica: Use para calcular valores de uso parcial do plano em um período específico.
+                </p>
+              </div>
             </div>
           </div>
 
+          {/* Diferença Proporcional */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-primary">Diferença Proporcional</h3>
+            <div className="cyber-glass rounded-lg p-4 text-sm">
+              <p className="font-medium mb-2">Funcionalidade:</p>
+              <p className="text-muted-foreground mb-3">
+                Calcula a soma de valores proporcionais de dois períodos diferentes, permitindo comparar ou somar custos de planos distintos.
+              </p>
+              
+              <div className="mt-3 p-2 bg-accent/10 rounded border-l-2 border-accent">
+                <p className="text-xs text-accent font-medium">
+                  💡 Dica: Útil para calcular custos totais quando há mudança de plano no meio do mês.
+                </p>
+              </div>
+            </div>
+          </div>
           {/* Planos */}
           <div className="space-y-3">
             <h3 className="text-lg font-semibold text-primary">Planos Disponíveis</h3>
@@ -99,6 +127,28 @@ export function InfoModal() {
             </div>
           </div>
 
+          {/* Dicas de Uso */}
+          <div className="space-y-3">
+            <h3 className="text-lg font-semibold text-primary">Dicas de Uso</h3>
+            <div className="cyber-glass rounded-lg p-4 text-sm space-y-2">
+              <div className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                <span className="text-muted-foreground">Todos os valores são calculados automaticamente com precisão</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                <span className="text-muted-foreground">Clique no ícone de copiar ao lado dos resultados para copiar o valor</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                <span className="text-muted-foreground">As datas são limitadas entre 2020 e hoje para evitar erros</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-primary">•</span>
+                <span className="text-muted-foreground">O sistema valida automaticamente todos os campos antes do cálculo</span>
+              </div>
+            </div>
+          </div>
           {/* Footer */}
           <div className="border-t border-glass-border pt-4 text-center">
             <p className="text-sm text-muted-foreground italic">
