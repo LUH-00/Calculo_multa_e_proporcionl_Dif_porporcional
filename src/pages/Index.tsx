@@ -10,9 +10,9 @@ const Index = () => {
     const structuredData = {
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "Calculadora Avançada - Sistema de Cálculos de Planos",
-      "description": "Sistema moderno e tecnológico para cálculos de multas contratuais, valores proporcionais e diferenças proporcionais de planos de internet.",
-      "url": "https://calculadora-avancada.netlify.app/",
+      "name": "Sistema de Cálculos de Planos",
+      "description": "Sistema moderno para cálculos de multas contratuais, valores proporcionais e diferenças proporcionais de planos de internet.",
+      "url": window.location.origin,
       "author": {
         "@type": "Person",
         "name": "Luan Vinicius"
@@ -27,7 +27,9 @@ const Index = () => {
     document.head.appendChild(script);
 
     return () => {
-      document.head.removeChild(script);
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
     };
   }, []);
 
@@ -38,14 +40,8 @@ const Index = () => {
       
       <div className="min-h-screen bg-gradient-background p-4 md:p-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-cyber bg-clip-text text-transparent mb-4">
-              Calculadora Avançada
-            </h1>
-            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Sistema moderno e tecnológico para cálculos de multas contratuais, valores proporcionais e diferenças proporcionais de planos de internet.
-            </p>
+          {/* Header - Spacer only */}
+          <div className="mb-8">
             <div className="w-24 h-1 bg-gradient-cyber mx-auto rounded-full glow-primary"></div>
           </div>
 

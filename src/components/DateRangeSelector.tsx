@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Calendar as CalendarIcon, Clock, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
@@ -33,7 +33,7 @@ export function DateRangeSelector({
     endDate ? new Date(endDate) : undefined
   );
 
-  useEffect(() => {
+  const calculateDays = useCallback(() => {
     setDateError('');
     
     if (startDate && endDate) {
@@ -56,7 +56,11 @@ export function DateRangeSelector({
     }
   }, [startDate, endDate, onDaysChange]);
 
-  const handleStartDateSelect = (date: Date | undefined) => {
+  useEffect(() => {
+    calculateDays();
+  }, [calculateDays]);
+
+  const handleStartDateSelect = useCallback((date: Date | undefined) => {
     setDateError('');
     setStartDateObj(date);
     if (date) {
@@ -65,9 +69,9 @@ export function DateRangeSelector({
     } else {
       onStartDateChange('');
     }
-  };
+  }, [onStartDateChange]);
 
-  const handleEndDateSelect = (date: Date | undefined) => {
+  const handleEndDateSelect = useCallback((date: Date | undefined) => {
     setDateError('');
     setEndDateObj(date);
     if (date) {
@@ -76,7 +80,7 @@ export function DateRangeSelector({
     } else {
       onEndDateChange('');
     }
-  };
+  }, [onEndDateChange]);
 
   return (
     <div className="space-y-4">
@@ -142,7 +146,7 @@ export function DateRangeSelector({
                 selected={endDateObj}
                 onSelect={handleEndDateSelect}
                 initialFocus
-                disabled={(date) => date > new Date() || date < new Date('2020-01-01')}
+                disabled={(date) => date > new Date() || date < new Date('2020-01-01') || (startDateObj && date < startDateObj)}
                 className="p-3 pointer-events-auto"
               />
             </PopoverContent>
