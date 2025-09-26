@@ -1,6 +1,6 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
-import { Home, AlertTriangle } from "lucide-react";
+import { Chrome as Home, TriangleAlert as AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
