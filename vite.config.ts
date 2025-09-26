@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
   },
+  base: "/",
   define: {
     global: 'globalThis',
   },
@@ -18,6 +19,7 @@ export default defineConfig(({ mode }) => ({
     sourcemap: mode === 'development',
     minify: 'terser',
     target: 'es2015',
+    emptyOutDir: true,
     rollupOptions: {
       output: {
         manualChunks: {
