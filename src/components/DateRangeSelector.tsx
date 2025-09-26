@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Calendar as CalendarIcon, Clock, AlertTriangle } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, TriangleAlert as AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
