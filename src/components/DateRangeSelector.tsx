@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Calendar as CalendarIcon, Clock, AlertTriangle } from 'lucide-react';
 import { format } from 'date-fns';
-import { ptBR } from 'date-fns/locale';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
@@ -100,7 +99,7 @@ export function DateRangeSelector({
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {startDateObj ? format(startDateObj, "dd/MM/yyyy", { locale: ptBR }) : "Selecione a data"}
+                {startDateObj ? format(startDateObj, "dd/MM/yyyy") : "Selecione a data"}
               </Button>
             </PopoverTrigger>
             <PopoverContent 
@@ -134,7 +133,7 @@ export function DateRangeSelector({
                 )}
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
-                {endDateObj ? format(endDateObj, "dd/MM/yyyy", { locale: ptBR }) : "Selecione a data"}
+                {endDateObj ? format(endDateObj, "dd/MM/yyyy") : "Selecione a data"}
               </Button>
             </PopoverTrigger>
             <PopoverContent 
