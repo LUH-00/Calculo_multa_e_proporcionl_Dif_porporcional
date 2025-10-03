@@ -6,16 +6,11 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "strict": false,
     "noImplicitAny": false,
-    "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noImplicitReturns": false,
-    "noFallthroughCasesInSwitch": false,
     "skipLibCheck": true,
     "allowJs": true,
-    "strictNullChecks": false,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "noUnusedLocals": false,
+    "strictNullChecks": false
   }
 }
